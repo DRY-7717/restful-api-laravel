@@ -1,0 +1,319 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "User API",
+        "version": "1.0",
+        "description": "API for User API from Contact App",
+        "contact": {
+            "email": "wicaksanabimaarya@gmail.com",
+            "name": "Bima Arya Wicaksanabimaarya",
+            "url": "https://bimaaryawicaksana.000webhostapp.com"
+        }
+    },
+    "servers": [{ "url": "http://localhost:8000" }],
+    "paths": {
+        "/api/users": {
+            "post": {
+                "description": "Register new user",
+                "summary": "(register new user)",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "maxLength": 100
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": ["name", "email", "username"]
+                            },
+                            "examples": {
+                                "bima": {
+                                    "description": "Register new user",
+                                    "value": {
+                                        "username": "bimaarya123",
+                                        "password": "asdfasdf",
+                                        "name": "Bima Arya Wicaksana"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success regiter user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                },
+                                                "username": {
+                                                    "type": "string"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "success": {
+                                        "description": "Register new user",
+                                        "value": {
+                                            "data": {
+                                                "id": 1,
+                                                "username": "bimaarya123",
+                                                "name": "Bima Arya Wicaksana"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "validationerror": {
+                                        "description": "Validation errors",
+                                        "value": {
+                                            "errors": {
+                                                "username": [
+                                                    "username must not be blank",
+                                                    "username min 6 characters"
+                                                ],
+                                                "name": [
+                                                    "name must not be blank",
+                                                    "name min 6 characters"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/login": {
+            "post": {
+                "description": "Login User",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success login user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                },
+                                                "username": {
+                                                    "type": "string"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "token": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/current": {
+            "get": {
+                "description": "Get current user",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "schema": {}
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success get current user with token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                },
+                                                "username": {
+                                                    "type": "string"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update current user",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "schema": {}
+                    }
+                ],
+                "requestBody": {
+                    "description": "update current user",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success update current user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                },
+                                                "username": {
+                                                    "type": "string"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/logout": {
+            "delete": {
+                "description": "Logout current user",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "schema": {}
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success logout user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "boolean"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
