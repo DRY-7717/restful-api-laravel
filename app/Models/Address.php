@@ -13,8 +13,10 @@ class Address extends Model
     protected $table = "addresses";
     protected $primaryKey = "id";
     protected $keyType = "int";
+    protected $guarded = ['id'];
     public $incrementing = true;
     public $timestamps = true;
+
 
     public function contact(): BelongsTo
     {
